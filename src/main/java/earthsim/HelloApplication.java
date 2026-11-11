@@ -49,19 +49,17 @@ public class HelloApplication extends Application {
         earth.getTransforms().add(new Rotate(5, Rotate.Y_AXIS));
         earth.setRotationAxis(Rotate.Y_AXIS);
 
-        // Create the Moon and place it away from Earth's centre.
+        // Create the Moon and place it away from Earths centre.
         Sphere moon = new createMoon().createMoon();
         moon.setTranslateX(MOON_ORBIT_RADIUS);
         moon.setRotationAxis(Rotate.Y_AXIS);
 
-        // The orbit pivot is centred on Earth. Rotating this group moves the
-        // Moon around Earth without rotating Earth's own sphere.
+        // The Moon rotates around Earth's center, while Earth remains stationary.
         Group moonOrbitGroup = new Group(moon);
         Rotate moonOrbitRotation = new Rotate(0, Rotate.Y_AXIS);
         moonOrbitGroup.getTransforms().add(moonOrbitRotation);
 
-        // Draw a subtle inclined orbital guide. The Moon and guide share the
-        // same orbital plane, while the Earth stays at the centre.
+        // Add a subtle tilted orbit path around Earth for the Moon to follow.
         Circle orbitPath = new Circle(MOON_ORBIT_RADIUS);
         orbitPath.setFill(Color.TRANSPARENT);
         orbitPath.setStroke(Color.color(0.55, 0.68, 0.88, 0.24));
@@ -72,10 +70,8 @@ public class HelloApplication extends Application {
         Group orbitalPlane = new Group(orbitPath, moonOrbitGroup);
         orbitalPlane.getTransforms().add(new Rotate(16, Rotate.Z_AXIS));
 
-        // Lighting: the Sun model is removed, but the planets still need
-        // illumination. These off-screen lights act as soft studio lighting.
-        // Keep them inside earthGroup so they follow the system when it is
-        // rotated, panned, or zoomed with the mouse.
+        // Use hidden lights to illuminate the planets without displaying a Sun.
+        // Keeping them inside earthGroup makes them move with the system.
         PointLight keyLight = new PointLight(Color.rgb(255, 245, 225));
         keyLight.setTranslateX(-300);
         keyLight.setTranslateY(-220);
@@ -140,7 +136,7 @@ public class HelloApplication extends Application {
 
                 double time = now / 1_000_000_000.0;
 
-                // Earth's axial rotation.
+                // Earths axial rotation.
                 earth.setRotate(
                         earth.getRotate() + EARTH_ROTATION_SPEED * dt
                 );
